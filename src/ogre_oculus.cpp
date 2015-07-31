@@ -288,6 +288,7 @@ float Oculus::getAspectRatio(){
 bool Oculus::setupOgre(Ogre::SceneManager *sm, Ogre::RenderWindow *win, Ogre::SceneNode *parent)
 {
   m_window = win;
+  std::cout << win->getFSAA() << std::endl;
   m_sceneManager = sm;
   Ogre::LogManager::getSingleton().logMessage("Oculus: Setting up Ogre");
   if (parent)

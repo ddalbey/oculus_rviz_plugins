@@ -117,14 +117,20 @@ void OculusDisplay::onInitialize()
   pub_tf_frame_property_ = new rviz::StringProperty( "Tf Frame", "oculus",
     "Name of the published tf frame.", this );
 
-  render_widget_ = new rviz::RenderWidget( rviz::RenderSystem::get() );
+
+  rviz::RenderSystem * rs = rviz::RenderSystem::get();
+  Ogre::Root* ogre_root = rs->root();
+  Ogre::RenderSystem* ors = ogre_root->getRenderSystem();
+  ors->setConfigOption("FSAA", "8");
+  
+  render_widget_ = new rviz::RenderWidget(rs);
   render_widget_->setVisible(false);
   render_widget_->setWindowTitle( "Oculus View" );
 
   render_widget_->setParent( context_->getWindowManager()->getParentWindow() );
   render_widget_->setWindowFlags( Qt::Window | Qt::CustomizeWindowHint | Qt::WindowTitleHint | Qt::WindowMaximizeButtonHint );
 
-  Ogre::RenderWindow *window = render_widget_->getRenderWindow();
+  Ogre::RenderWindow *window = render_widget_->getRenderWindow(); // no FSAA
   window->setVisible(false);
   window->setAutoUpdated(false);
   window->addListener(this);
